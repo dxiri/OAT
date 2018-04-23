@@ -6,7 +6,7 @@ view its schema and target either production or staging environments.
 The tool works on top of `Akamai {OPEN} Edgegrid Authentication`_ scheme. For more information
 visit the `Akamai {OPEN} Developer Community`_.
 
-Once you have edgegrid installed, you can just put this script alongside your .edgerc file and it should just work.
+To learn more about how Edgegrid works, visit:
 
 .. _`requests`: http://docs.python-requests.org
 .. _`Akamai {OPEN} Edgegrid authentication`: https://developer.akamai.com/introduction/Client_Auth.html
@@ -17,13 +17,7 @@ Installation
 
 If you already have edgegrid installed, you can just put this script alongside your .edgerc file and it should just work.
 
-If not, you can install edgegrid from pip:
-
-.. code-block:: bash
-
-    $ pip install edgegrid-python
-
-or from sources by cloning the edgegrid repo and doing:
+If not, just clone this repo (this repo has an edgegrid implementation bundled in) and then do:
 
 .. code-block:: bash
 
