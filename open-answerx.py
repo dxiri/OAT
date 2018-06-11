@@ -14,6 +14,7 @@ parser = argparse.ArgumentParser(description='Interact with the AnswerX OPEN API
 parser.add_argument('-t', '--table', help='Table to target, displays the table schema', required=True)
 parser.add_argument('-d', '--dump', help='Dump/Display the contents of the table', action='store_true')
 parser.add_argument('-r', '--remove', help='Remove a domain from a table', type=str)
+parser.add_argument('-D', '--debug', help='Enable Pragma headers for troubleshooting', action='store_true')
 #parser.add_argument('-D', '--data', help='Data to insert into the table', type=str)
 parser.add_argument('-i', '--insert', help='Toggles insert mode, if this is set, you need to specify what do you want to insert into the table', type=str)
 parser.add_argument('-s', '--static', help='Tells the API to query a static table and not a real-time table', action='store_true')
@@ -34,6 +35,8 @@ else:
 s = requests.Session()
 s.auth = EdgeGridAuth.from_edgerc(edgerc, section)
 s.headers = {'Accept': 'application/xml'}
+if args['debug'] == True:
+    s.headers.update({'Pragma': 'akamai-x-get-cache-key, akamai-x-cache-on, akamai-x-cache-remote-on, akamai-x-get-true-cache-key, akamai-x-check-cacheable, akamai-x-get-request-id, akamai-x-serial-no, akamai-x-get-ssl-client-session-id, edgegrid-fingerprints-on'})
 
 def showTable(tablename):
     # result = s.get(urljoin(baseurl, '/recursive-dns-db/v1/service-instances/9/tables/r_9_IPToSubscriberTable'))
@@ -48,8 +51,10 @@ def showTable(tablename):
     else:
         table_url = urljoin(baseurl, '/recursive-dns-db/v1/service-instances/'+str(service_instance_id)+'/tables/'+tablename+'?'+table_type)
 
-    table_data = s.get(table_url)
+    table_data = s.get(table_url, stream=True)
+    print table_data.headers
     print 'GOT HTTP CODE: ' + str(table_data.status_code) + '\n' + table_url + '\n'
+
     try:
         global xml
         xml = xml.dom.minidom.parseString(table_data.content)
