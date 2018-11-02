@@ -1,36 +1,36 @@
 import requests
 import xml.dom.minidom
 import sys
+import os
 import argparse
 from akamai.edgegrid import EdgeGridAuth, EdgeRc
 from urlparse import urljoin
 
 edgerc = EdgeRc('.edgerc')
-section = 'default'
-#section = 'r_3'
-baseurl = 'https://%s' % edgerc.get(section, 'host')
 
 parser = argparse.ArgumentParser(description='Interact with the AnswerX OPEN API to view or insert table data')
 parser.add_argument('-t', '--table', help='Table to target, displays the table schema', required=True)
 parser.add_argument('-d', '--dump', help='Dump/Display the contents of the table', action='store_true')
 parser.add_argument('-r', '--remove', help='Remove a domain from a table', type=str)
 parser.add_argument('-D', '--debug', help='Enable Pragma headers for troubleshooting', action='store_true')
-#parser.add_argument('-D', '--data', help='Data to insert into the table', type=str)
-parser.add_argument('-i', '--insert', help='Toggles insert mode, if this is set, you need to specify what do you want to insert into the table', type=str)
+parser.add_argument('-i', '--insert', help='Toggle insert mode, if this is set, you need to specify what do you want to insert into the table', type=str)
+parser.add_argument('-S', '--subscriber', help='Check subscriberID belongs to a table', type=str)
 parser.add_argument('-s', '--static', help='Tells the API to query a static table and not a real-time table', action='store_true')
+parser.add_argument('-e', '--environment', help='Set target environment, this is a number related to the .edgerc section that contains the credentials where you want to run the script, if not specified, then the default section is used', type=int)
 parser.add_argument('-p', '--production', help='Production flag, set to target the production environment, if not present, script will target the staging environment', action='store_true')
 args = vars(parser.parse_args())
 print args
 
-if args['production'] == True:
-        service_instance_id = 10
-        print "RUNNING ON PROD service_instance_id = " + str(service_instance_id)
-
+if args['environment']:
+    service_instance_id = args['environment']
+    section = 'r_'+ str(service_instance_id)
 else:
-        service_instance_id = 10
-    #    service_instance_id = 3
-        print "RUNNING ON STAGING service_instance_id = " + str(service_instance_id)
+    service_instance_id = '3'
+    section = 'default'
 
+baseurl = 'https://%s' % edgerc.get(section, 'host')
+
+print "RUNNING ON service_instance_id = " + str(service_instance_id) + ' using ' + str(section) + ' section from ' + os.path.abspath(".edgerc")
 
 s = requests.Session()
 s.auth = EdgeGridAuth.from_edgerc(edgerc, section)
@@ -62,6 +62,17 @@ def showTable(tablename):
     except xml.parsers.expat.ExpatError as e:
         return table_data.content
 
+def showSub(tablename):
+    key = args['subscriber']
+
+    table_url = urljoin(baseurl,
+                        '/recursive-dns-db/v1/service-instances/' + str(service_instance_id) + '/tables/' + tablename)
+    subscriber_url = urljoin(table_url, '?key=%22' + key + '%22')
+
+    subscriber = s.get(subscriber_url)
+    print 'GOT HTTP CODE: ' + str(subscriber.status_code) + '\n' + subscriber_url + '\n'
+    print subscriber.content
+    return subscriber
 
 def insertDomain(tablename):
 
@@ -98,11 +109,14 @@ def removeDomain(tablename):
     print domain_delete.content
     return domain_delete
 
-if args['insert']:
-    print "Inserting domain" + args['insert'] + "into " + args['table']
-    print insertDomain(args['table'])
-if args['remove']:
-    print "Removing domain " + args['remove'] + "from " + args['table']
-    print removeDomain(args['table'])
-else:
-    print showTable(args['table'])
+if __name__ == '__main__':
+    if args['insert']:
+        print "Inserting domain" + args['insert'] + "into " + args['table']
+        print insertDomain(args['table'])
+    if args['remove']:
+        print "Removing domain " + args['remove'] + "from " + args['table']
+        print removeDomain(args['table'])
+    if args['subscriber']:
+        print showSub(args['table'])
+    else:
+        print showTable(args['table'])
