@@ -17,7 +17,6 @@ parser.add_argument('-i', '--insert', help='Toggle insert mode, if this is set, 
 parser.add_argument('-S', '--subscriber', help='Check subscriberID belongs to a table', type=str)
 parser.add_argument('-s', '--static', help='Tells the API to query a static table and not a real-time table', action='store_true')
 parser.add_argument('-e', '--environment', help='Set target environment, this is a number related to the .edgerc section that contains the credentials where you want to run the script, if not specified, then the default section is used', type=int)
-parser.add_argument('-p', '--production', help='Production flag, set to target the production environment, if not present, script will target the staging environment', action='store_true')
 args = vars(parser.parse_args())
 print args
 
