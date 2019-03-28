@@ -1,20 +1,18 @@
 from setuptools import setup, find_packages
 setup(
-    name='edgegrid-python', 
-    version='1.1.1', 
-    description='{OPEN} client authentication protocol for python-requests',
-    author='Jonathan Landis',
-    author_email='jlandis@akamai.com',
-    url='https://github.com/akamai-open/AkamaiOPEN-edgegrid-python',
+    name='open-answerx',
+    version='1.1.7',
+    description='{OPEN} client for AnswerX Cloud and Managed',
+    author='Diego Xirinachs',
+    author_email='dxirinac@akamai.com',
+    scripts=['open-answerx.py'],
+    url='https://github.com/dxiri/OAT',
     namespace_packages=['akamai'],
     packages=find_packages(),
     python_requires=">=2.7.10",
     install_requires = [
-        'requests>=2.3.0',
-        'pyOpenSSL >= 0.13',
-        'ndg-httpsclient',
-        'pyasn1',
-        'urllib3'
+        'edgegrid-python'
     ],
     license='LICENSE.txt'
+
 )

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import requests
 import json
 import urllib
@@ -8,7 +10,8 @@ import argparse
 from akamai.edgegrid import EdgeGridAuth, EdgeRc
 from urlparse import urljoin
 
-edgerc = EdgeRc('.edgerc')
+edgerc_path = os.getenv("HOME")+'/'+'.edgerc'
+edgerc = EdgeRc(edgerc_path)
 
 parser = argparse.ArgumentParser(description='Interact with the AnswerX OPEN API to view or insert table data')
 parser.add_argument('-t', '--table', help='Table to target, displays the table schema if dump is not provided', required=True)
@@ -111,7 +114,7 @@ def insertDomain(tablename):
     if args['expiry']:
         expiry = args['expiry']
     else:
-        expiry = 60
+        expiry = 315360000
 
     data = {"Expiry": expiry, }
     data["Field"] = [{"Name": key, "Type": "STRING"}]
