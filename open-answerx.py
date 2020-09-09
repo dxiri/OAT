@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+#Python 2.7 version, for Python 3, use open-answerx-py3.py
 import requests
 import json
 import urllib
