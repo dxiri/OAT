@@ -1,0 +1,10 @@
+{
+    "Columns": [
+        {
+            "Value": "proxytest.test.test",
+            "Type": "STRING"
+        }
+          
+    ],
+    "Expiry": 120
+}
