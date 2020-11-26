@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 setup(
     name='open-answerx',
-    version='2.0.1',
+    version='2.0.2',
     description='{OPEN} client for AnswerX Cloud and Managed',
     long_description=open('README.md', 'r').read(),
     long_description_content_type='text/markdown',
