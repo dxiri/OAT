@@ -3,6 +3,8 @@ setup(
     name='open-answerx',
     version='2.0.1',
     description='{OPEN} client for AnswerX Cloud and Managed',
+    long_description=open('README.md', 'r').read(),
+    long_description_content_type='text/markdown',
     author='Diego Xirinachs',
     author_email='dxirinac@akamai.com',
     scripts=['open-answerx.py'],
