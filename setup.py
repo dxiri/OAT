@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 setup(
     name='open-answerx',
-    version='2.0.2',
+    version='2.0.3',
     description='{OPEN} client for AnswerX Cloud and Managed',
     long_description=open('README.md', 'r').read(),
     long_description_content_type='text/markdown',
@@ -12,7 +12,7 @@ setup(
     namespace_packages=['akamai'],
     packages=find_packages(),
     python_requires=">=3.4",
-    install_requires = [
+    install_requires=[
         'edgegrid-python',
         'requests'
     ],

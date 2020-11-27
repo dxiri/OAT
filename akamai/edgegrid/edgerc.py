@@ -3,7 +3,7 @@
 # support for .edgerc file format
 #
 # Copyright 2014 Akamai Technologies, Inc. All Rights Reserved
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 
 class EdgeRc(ConfigParser):
     def __init__(self, filename):
-        ConfigParser.__init__(self, {'client_token': '', 'client_secret':'', 'host':'', 'access_token':'','max_body': '131072', 'headers_to_sign': None})
+        ConfigParser.__init__(self, {'client_token': '', 'client_secret':'', 'host':'', 'access_token':'','max_body': '131072', 'headers_to_sign': 'None'})
         logger.debug("loading edgerc from %s", filename)
 
         self.read(filename)

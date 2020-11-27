@@ -15,10 +15,6 @@ import pprint
 
 from akamai.edgegrid import EdgeGridAuth, EdgeRc
 
-pp = pprint.PrettyPrinter(indent=4, width=80, compact=False)
-edgerc_path = os.getenv("HOME")+'/'+'.edgerc'
-edgerc = EdgeRc(edgerc_path)
-
 parser = argparse.ArgumentParser(description='Interact with the AnswerX OPEN API to view or insert table data')
 parser.add_argument('-t', '--table', help='Table to target, displays the table schema if dump is not provided', required=True)
 parser.add_argument('-d', '--dump', help='Dump/Display the contents of the table', action='store_true')
@@ -34,6 +30,9 @@ parser.add_argument('-s', '--static', help='Tells the API to query a static tabl
 parser.add_argument('-e', '--environment', help='Set target environment, this is a number related to the .edgerc section that contains the credentials where you want to run the script, if not specified, then the default section is used', type=int)
 args = vars(parser.parse_args())
 
+pp = pprint.PrettyPrinter(indent=4, width=80, compact=False)
+edgerc_path = os.getenv("HOME")+'/'+'.edgerc'
+edgerc = EdgeRc(edgerc_path)
 
 if args['environment']:
     service_instance_id = args['environment']
